@@ -45,6 +45,10 @@ Test-Suite HspecTest
                      , UniqueStrict.RepeatedBy
                      , UniqueStrict.SortUniq
                      , UniqueStrict.AllUnique
+                     , UniqueUnsorted.IsUnique
+                     , UniqueUnsorted.RemoveDuplicates
+                     , UniqueUnsorted.RepeatedBy
+                     , UniqueUnsorted.AllUnique
                      
 
   build-depends:       base          >= 4.0 && < 4.11

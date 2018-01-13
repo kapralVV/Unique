@@ -15,9 +15,13 @@
 -- This implementation is good for ByteStrings.
 
 module Data.List.UniqueUnsorted
-        ( repeated
+        ( isUnique
+        , isRepeated
+        , removeDuplicates
+        , repeated
         , repeatedBy
         , unique
+        , allUnique
         , count
         , count_
         )
@@ -25,13 +29,43 @@ module Data.List.UniqueUnsorted
 
 import           Data.Hashable
 import qualified Data.HashMap.Strict as HS (HashMap, filter, fromListWith, keys,
-                                            toList)
+                                            toList, lookup, map, foldr)
+
+import qualified Data.HashSet        as DHS (toList, fromList)
 
 import qualified Data.IntMap.Strict  as IM (fromListWith, toList)
 
 
 countMap :: (Hashable a, Eq a) => [a] -> HS.HashMap a Int
 countMap = HS.fromListWith (+) . flip zip (repeat 1)
+
+-- | 'isUnique' function is to check whether the given element is unique in the list or not.
+--
+-- It returns Nothing when the element does not present in the list. Examples:
+--
+-- > isUnique 'f' "foo bar" == Just True
+-- > isUnique 'o' "foo bar" == Just False
+-- > isUnique '!' "foo bar" == Nothing
+--
+-- Since 0.4.7.2
+--
+
+isUnique :: (Hashable a, Eq a) => a -> [a] -> Maybe Bool
+isUnique x = fmap (== 1) . HS.lookup x . countMap
+
+-- | 'isRepeated' is a reverse function to 'isUnique'
+--
+-- Since 0.4.7.2
+
+isRepeated :: (Hashable a, Eq a) => a -> [a] -> Maybe Bool
+isRepeated x = fmap not . isUnique x
+
+-- | 'removeDuplicates' removes the duplicates of elements. Example:
+--
+-- > removeDuplicates "foo bar" == " abrfo"
+
+removeDuplicates :: (Hashable a, Eq a) => [a] -> [a]
+removeDuplicates = DHS.toList . DHS.fromList
 
 -- | The 'repeatedBy' function behaves just like 'repeated', except it uses a user-supplied equality predicate.
 --
@@ -53,6 +87,17 @@ repeated = repeatedBy (>1)
 
 unique :: (Hashable a, Eq a) => [a] -> [a]
 unique = repeatedBy (==1)
+
+
+-- | 'allUnique' checks whether all elements of the list are unique
+--
+-- > allUnique "foo bar" == False
+-- > allUnique ['a'..'z'] == True
+-- > allUnique [] == True (!)
+-- Since 0.4.7.2
+
+allUnique :: (Hashable a, Eq a) => [a] -> Bool
+allUnique = HS.foldr (&&) True . HS.map (==1) . countMap
 
 -- | 'count' of each element in the list. Example:
 --

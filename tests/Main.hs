@@ -9,6 +9,11 @@ import qualified UniqueStrict.SortUniq as US
 import qualified UniqueStrict.RepeatedBy as US
 import qualified UniqueStrict.AllUnique as US
 
+import qualified UniqueUnsorted.IsUnique as UA
+import qualified UniqueUnsorted.RemoveDuplicates as UA
+import qualified UniqueUnsorted.RepeatedBy as UA
+import qualified UniqueUnsorted.AllUnique as UA
+
 import Test.Hspec
 
 main :: IO ()
@@ -20,5 +25,10 @@ main = mapM_ hspec [ U.isUniqueTests
                    , US.isUniqueTests
                    , US.sortUniqTests
                    , US.repeatedByTests
-                   , US.allUniqueTests                   
+                   , US.allUniqueTests
+                   , UA.isUniqueTests
+                   , UA.removeDuplicatesTests
+                   , UA.repeatedByTests
+                   , UA.allUniqueTests
                    ]
+

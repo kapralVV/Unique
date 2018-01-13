@@ -85,12 +85,19 @@ repeated = repeatedBy (>1)
 unique :: Ord a => [a] -> [a]
 unique = repeatedBy (==1)
 
--- | 'count' of each element in the list, it sorts by keys (elements). Example:
+-- | 'allUnique' checks whether all elements of the list are unique
 --
--- > count "foo bar" == [(' ',1),('a',1),('b',1),('f',1),('o',2),('r',1)]
+-- > allUnique "foo bar" == False
+-- > allUnique ['a'..'z'] == True
+-- > allUnique [] == True (!)
+-- Since 0.4.7.2
 
 allUnique :: Ord a => [a] -> Bool
 allUnique = MS.foldr (&&) True . MS.map (==1) . countMap
+
+-- | 'count' of each element in the list, it sorts by keys (elements). Example:
+--
+-- > count "foo bar" == [(' ',1),('a',1),('b',1),('f',1),('o',2),('r',1)]
 
 count :: Ord a => [a] -> [(a, Int)]
 count = MS.toList . countMap

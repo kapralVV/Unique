@@ -1,4 +1,4 @@
-module SortUniq where
+module Unique.SortUniq where
 
 import Test.Hspec
 import Test.QuickCheck

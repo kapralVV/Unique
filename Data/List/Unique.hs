@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Data.List.Unique
--- Copyright   :  (c) Volodymyr Yaschenko
+-- Copyright   :  (c) Volodymyr Yashchenko
 -- License     :  BSD3
 --
 -- Maintainer  :  ualinuxcn@gmail.com

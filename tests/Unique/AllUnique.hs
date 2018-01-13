@@ -1,4 +1,4 @@
-module AllUnique where
+module Unique.AllUnique where
 
 import Test.Hspec
 import Test.QuickCheck

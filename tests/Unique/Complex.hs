@@ -1,4 +1,4 @@
-module Complex where
+module Unique.Complex where
 
 import Test.Hspec
 import Test.QuickCheck

@@ -1,15 +1,15 @@
-module RepeatedBy where
+module UniqueStrict.RepeatedBy where
 
 import Test.Hspec
 import Test.QuickCheck
 
-import Data.List.Unique
+import Data.List.UniqueStrict
 import Data.List (sort, group)
 
 
 repeatedByTests :: SpecWith ()
 repeatedByTests =
-  describe "Data.List.Unique.repeatedBy,repeated,unique" $ do
+  describe "Data.List.UniqueStrict.repeatedBy,repeated,unique" $ do
   
   it "repeatedBy: should return [] with empty list" $ do
     repeatedBy (>100) ( [] :: [Int] ) `shouldBe` []

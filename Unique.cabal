@@ -6,15 +6,15 @@ synopsis:            It provides the functionality like unix "uniq" utility
 description:         Library provides the functions to find unique and duplicate elements in the list
 license:             BSD3
 license-file:        LICENSE
-author:              Volodymyr Yaschenko
+author:              Volodymyr Yashchenko
 maintainer:          ualinuxcn@gmail.com
 category:            Data
 build-type:          Simple
 cabal-version:       >=1.10
 
 source-repository head
-   type:             darcs
-   location:         http://hub.darcs.net/kapral/Unique/
+   type:             git
+   location:         https://github.com/kapralVV/Unique
 
 library
   exposed-modules:      Data.List.Unique,

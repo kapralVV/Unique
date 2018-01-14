@@ -4,7 +4,7 @@ import Test.Hspec
 import Test.QuickCheck
 
 import Data.List.UniqueUnsorted
-import Data.List (sort, group)
+import Data.List (group)
 
 
 removeDuplicatesTests :: SpecWith ()

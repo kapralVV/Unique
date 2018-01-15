@@ -25,7 +25,7 @@ module Data.List.UniqueStrict
         where
 
 import qualified Data.Map.Strict    as MS (Map, filter, fromListWith, keys,
-                                           toList, lookup, map, foldr)
+                                           toList, lookup, map, foldr')
 
 import qualified Data.IntMap.Strict as IM (fromListWith, toList)
 
@@ -93,7 +93,7 @@ unique = repeatedBy (==1)
 -- Since 0.4.7.2
 
 allUnique :: Ord a => [a] -> Bool
-allUnique = MS.foldr (&&) True . MS.map (==1) . countMap
+allUnique = MS.foldr' (&&) True . MS.map (==1) . countMap
 
 -- | 'count' of each element in the list, it sorts by keys (elements). Example:
 --

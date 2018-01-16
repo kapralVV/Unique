@@ -27,7 +27,7 @@ library
                         Data.List.UniqueUnsorted
 
   build-depends:         base                 >= 4.0 && < 4.11
-                       , containers           >= 0.5.10 && < 0.6
+                       , containers           >= 0.5.5 && < 0.6
                        , extra                >= 1.6.2 && < 1.7
                        , hashable             >= 1.2.6 && < 1.3
                        , unordered-containers >= 0.2.8 && < 0.3
@@ -58,7 +58,7 @@ Test-Suite HspecTest
 
   build-depends:       base          >= 4.0 && < 4.11
                      , hspec
-                     , containers    >= 0.5.10 && < 0.6
+                     , containers    >= 0.5.5 && < 0.6
                      , QuickCheck
                      , Unique
 

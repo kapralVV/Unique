@@ -13,9 +13,9 @@ import qualified Data.List.UniqueUnsorted as UU
 
 setupEnv :: IO ([Int], [String], [ByteString])
 setupEnv = do
-  int        <- fmap getLarge $ generate (arbitrary  :: Gen (Large [Int]))
-  string     <- generate (arbitrary  :: Gen [String])
-  bytestring <- generate (arbitrary  :: Gen [ByteString])
+  int        <- generate (arbitrary  :: Gen [Int] )
+  string     <- generate (arbitrary  :: Gen [String] )
+  bytestring <- generate (arbitrary  :: Gen [ByteString] )
   return (int, string, bytestring)
 
 

@@ -51,6 +51,7 @@ benchGroups x xs =
                     ]
   , bgroup "occurrences" [ bench "Unique" $ whnf U.occurrences xs
                          , bench "UniqueStrict" $ whnf US.occurrences xs
+                         , bench "UniqueUnsorted"  $ whnf UU.occurrences xs
                          ]
   ]
 

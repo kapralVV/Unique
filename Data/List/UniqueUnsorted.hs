@@ -24,6 +24,7 @@ module Data.List.UniqueUnsorted
         , allUnique
         , count
         , count_
+        , occurrences
         )
         where
 
@@ -33,7 +34,7 @@ import qualified Data.HashMap.Strict as HS (HashMap, filter, fromListWith, keys,
 
 import qualified Data.HashSet        as DHS (toList, fromList)
 
-import qualified Data.IntMap.Strict  as IM (fromListWith, toList)
+import qualified Data.IntMap.Strict  as IM (fromAscListWith, fromListWith, toAscList)
 
 
 countMap :: (Hashable a, Eq a) => [a] -> HS.HashMap a Int
@@ -112,5 +113,14 @@ count = HS.toList . countMap
 
 count_ :: (Hashable a, Eq a) => [a] -> [(a, Int)]
 count_ = fromIntMap . toIntMap . HS.toList . countMap
-    where toIntMap   = IM.fromListWith (++) . map (\(x,y) -> (y,[x]))
-          fromIntMap = concatMap (\(x,y) -> zip y $ repeat x) . IM.toList
+  where toIntMap   = IM.fromListWith (++) . map (\(x,y) -> (y,[x]))
+        fromIntMap = concatMap (\(x,y) -> zip y $ repeat x) . IM.toAscList
+
+-- | 'occurrences' like 'count' or 'count_' but shows the list of elements that occur X times
+--
+-- > occurrences "This is the test line" == [(1,"Tln"),(2,"h"),(3,"eist"),(4," ")]
+-- Since 0.4.7.5
+--
+
+occurrences :: (Hashable a, Eq a) => [a] -> [(Int, [a])]
+occurrences = IM.toAscList . IM.fromAscListWith (++) . map (\(k , x) -> (x, [k]) ) . count_

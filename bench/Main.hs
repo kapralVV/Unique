@@ -11,22 +11,25 @@ import qualified Data.List.UniqueStrict as US
 import qualified Data.List.UniqueUnsorted as UU
 
 
-setupEnv :: IO ([Int], [String], [ByteString])
+setupEnv :: IO (Int, String, ByteString, [Int], [String], [ByteString])
 setupEnv = do
-  int        <- generate (arbitrary  :: Gen [Int] )
-  string     <- generate (arbitrary  :: Gen [String] )
-  bytestring <- generate (arbitrary  :: Gen [ByteString] )
-  return (int, string, bytestring)
+  int         <- generate (arbitrary  :: Gen Int )
+  string      <- generate (arbitrary  :: Gen String )
+  bytestring  <- generate (arbitrary  :: Gen ByteString )
+  ints        <- generate (arbitrary  :: Gen [Int] )
+  strings     <- generate (arbitrary  :: Gen [String] )
+  bytestrings <- generate (arbitrary  :: Gen [ByteString] )
+  return (int, string, bytestring, ints, strings, bytestrings )
 
 
-benchGroups :: (Hashable a, Ord a) => [a] -> [Benchmark]
-benchGroups xs =
+benchGroups :: (Hashable a, Ord a) => a -> [a] -> [Benchmark]
+benchGroups x xs =
   [
-    -- bgroup "isUnique" [ bench "Unique"          $ whnf (U.isUnique  'h') xs
-    --                   , bench "UniqueStrict"    $ whnf (US.isUnique 'h') xs 
-    --                   , bench "UniqueUnsorted"    $ whnf (UU.isUnique 'h') xs
-    --                   ]
-    bgroup "sortUniq" [ bench "Unique"          $ whnf U.sortUniq  xs
+    bgroup "isUnique" [ bench "Unique"          $ whnf (U.isUnique x) xs
+                      , bench "UniqueStrict"    $ whnf (US.isUnique x) xs
+                      , bench "UniqueUnsorted"  $ whnf (UU.isUnique x) xs
+                      ]
+  , bgroup "sortUniq" [ bench "Unique"          $ whnf U.sortUniq  xs
                       , bench "UniqueStrict"    $ whnf US.sortUniq xs
                       , bench "UniqueUnsorted"  $ whnf UU.removeDuplicates xs
                       ]
@@ -46,15 +49,18 @@ benchGroups xs =
                     , bench "UniqueStrict"    $ whnf US.count_ xs
                     , bench "UniqueUnsorted"  $ whnf UU.count_ xs
                     ]
+  , bgroup "occurrences" [ bench "Unique" $ whnf U.occurrences xs
+                         , bench "UniqueStrict" $ whnf US.occurrences xs
+                         ]
   ]
 
 main :: IO ()
 main = defaultMain [
-      env setupEnv $ \ ~(int,st,byst) ->
-          bgroup "Main" $
-          [ bgroup "Int" $ benchGroups int
-          , bgroup "String" $ benchGroups st
-          , bgroup "ByteString" $ benchGroups byst
-          ]
+  env setupEnv $ \ ~(int,st,byst,ints,sts,bysts) ->
+      bgroup "Main" $
+      [ bgroup "Int" $ benchGroups int ints
+      , bgroup "String" $ benchGroups st sts
+      , bgroup "ByteString" $ benchGroups byst bysts
       ]
+  ]
 

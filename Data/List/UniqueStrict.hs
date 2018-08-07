@@ -21,15 +21,17 @@ module Data.List.UniqueStrict
         , unique
         , allUnique
         , count
-        , count_ )
+        , count_
+        , occurrences )
         where
 
 import qualified Data.Map.Strict    as MS (Map, filter, fromListWith, keys,
                                            toList, lookup, map, foldr')
-
-import qualified Data.IntMap.Strict as IM (fromListWith, toList)
-
+import qualified Data.IntMap.Strict as IM (fromAscListWith, toList)
 import qualified Data.Set           as DS (fromList, toList)
+
+import Data.List                          (sortBy)
+import Data.Function                      (on)
 
 
 countMap :: Ord a => [a] -> MS.Map a Int
@@ -107,6 +109,13 @@ count = MS.toList . countMap
 -- > count_ "foo bar" == [(' ',1),('a',1),('b',1),('f',1),('r',1),('o',2)]
 
 count_ :: Ord a => [a] -> [(a, Int)]
-count_ = fromIntMap . toIntMap . MS.toList . countMap
-    where toIntMap = IM.fromListWith (++) . map (\(x,y) -> (y,[x]))
-          fromIntMap = concatMap (\(x,y) -> sortUniq . zip y $ repeat x) . IM.toList
+count_ = sortBy (compare `on` snd) . MS.toList . countMap
+
+-- | 'occurrences' like 'count' or 'count_' but shows the list of elements that occur X times
+--
+-- > occurrences "This is the test line" == [(1,"Tln"),(2,"h"),(3,"eist"),(4," ")]
+-- Since 0.4.7.5
+--
+
+occurrences :: Ord a => [a] -> [(Int, [a])]
+occurrences = IM.toList . IM.fromAscListWith (++) . map (\(k , x) -> (x, [k]) ) . count_

@@ -1,6 +1,6 @@
 name:                Unique
 
-version:             0.4.7.2
+version:             0.4.7.5
 
 synopsis:            It provides the functionality like unix "uniq" utility
 description:         Library provides the functions to find unique and duplicate elements in the list

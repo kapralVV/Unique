@@ -35,7 +35,7 @@ import           Data.Function       (on)
 import           Data.List.Extra     (nubOrd)
 import           Data.Tuple          (swap)
 
--- | 'uniq' behaves the same as 'uniq uniq' utility does (without cli additional options)
+-- | 'uniq' behaves the same as unix 'uniq' utility does (without cli additional options)
 --
 -- > uniq "1121331" == "12131"
 

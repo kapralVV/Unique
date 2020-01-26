@@ -9,6 +9,12 @@ cache:
 
 matrix:
   include:
+  - ghc: "8.8"
+    env: CACHE_NAME=CACHE8.4
+
+  - ghc: "8.6"
+    env: CACHE_NAME=CACHE8.4
+
   - ghc: "8.4"
     env: CACHE_NAME=CACHE8.4
 

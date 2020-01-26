@@ -11,8 +11,8 @@
 -- Library provides the functions to find unique and duplicate elements in the list
 
 module Data.List.Unique
-   (
-     complex
+   ( uniq
+   , complex
    , isUnique
    , isRepeated
    , sortUniq
@@ -34,6 +34,13 @@ import           Control.Applicative (liftA2)
 import           Data.Function       (on)
 import           Data.List.Extra     (nubOrd)
 import           Data.Tuple          (swap)
+
+-- | 'uniq' behaves the same as 'uniq uniq' utility does (without cli additional options)
+--
+-- > uniq "1121331" == "12131"
+
+uniq :: Eq b => [b] -> [b]
+uniq = map head . group
 
 -- | 'sortUniq' sorts the list and removes the duplicates of elements. Example:
 --

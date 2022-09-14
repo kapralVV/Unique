@@ -15,7 +15,7 @@ repeatedByTests =
     repeatedBy (>100) ( [] :: [Int] ) `shouldBe` []
 
   it "repeatedBy: simple test" $ do
-    repeatedBy (>2) "This is the test line" `shouldBe` " eist"
+    sort (repeatedBy (>2) "This is the test line") `shouldBe` " eist"
 
   it "repeatedBy: returns [] when predicate (=< negative) " $
     property $
@@ -39,7 +39,7 @@ repeatedByTests =
   it "repeatedBy: resulted elements should occur only once" $
     property $
     \ x xs -> x > 0
-              ==> all (==1) . map length . group $ repeatedBy (> x) ( xs :: String )
+              ==> all ((==1) . length) . group $ repeatedBy (> x) ( xs :: String )
 
   it "unique: simple test" $ do
     unique  "foo bar" `shouldBe` " abfr"

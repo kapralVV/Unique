@@ -4,7 +4,7 @@ import Test.Hspec
 import Test.QuickCheck
 
 import Data.List.UniqueUnsorted
-import Data.List (group)
+import Data.List (group, sort)
 
 
 removeDuplicatesTests :: SpecWith ()
@@ -15,7 +15,7 @@ removeDuplicatesTests =
     removeDuplicates ( [] :: [Int] ) `shouldBe` []
 
   it "removeDuplicates: simple test" $ do
-    removeDuplicates "foo bar" `shouldBe` " abrfo"
+    sort (removeDuplicates "foo bar") `shouldBe` " abfor"
 
   it "removeDuplicates: multiple execution should return the same result" $
     property $
@@ -27,4 +27,4 @@ removeDuplicatesTests =
 
   it "removeDuplicates: elements should occur only once #2" $
     property $
-    \ xs -> all (==1) . map length . group $ removeDuplicates ( xs :: [Integer] )
+    \ xs -> all ((==1) . length) . group $ removeDuplicates ( xs :: [Integer] )

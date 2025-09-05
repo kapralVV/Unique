@@ -47,14 +47,16 @@ isUniqueTests =
 
   it "isUnique: should return (Just ANY) when element is exist in the list" $
     property $
-    \ ( NonEmpty ls@(x:_) )
-    -> isJust (isUnique (x :: Char) ls)
+    \ ( NonEmpty ls )
+    -> isJust (isUnique (headOrError ls :: Char) ls)
 
   context "isUnique: should return (Just False) when at least two elements are exist in the list" $
     it "- It checks laziness as well" $
       property $
-      \ ( NonEmpty ls@(x:_) )
-      ->  isJust $ isUnique (x :: Char) (ls ++ [x, undefined])
+      \ ( NonEmpty ls )
+      ->  isJust $
+            let x = headOrError ls in
+            isUnique (x :: Char) (ls ++ [x, undefined])
 
   it "isUnique: should return Nothing when element is absent in the list" $
     property $
@@ -68,3 +70,12 @@ isUniqueTests =
     -> notElem x xs
        ==> isNothing (isUnique (x :: Char) xs)
        &&  isNothing (isRepeated x xs)
+
+
+-- Need this to prevent warnings/errors in CI for later GHC version.
+{-# INLINE headOrError #-}
+headOrError :: [a] -> a
+headOrError xs =
+  case xs of
+    [] -> error "Unique.IsUniqueheadOrError: Empty list"
+    (x:_) -> x

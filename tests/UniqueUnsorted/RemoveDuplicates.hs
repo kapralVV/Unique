@@ -23,8 +23,16 @@ removeDuplicatesTests =
 
   it "removeDuplicates: elements should occur only once" $
     property $
-    \ ( NonEmpty ls@(x:_) ) -> isUnique (x :: Float) (removeDuplicates ls) == Just True
+    \ ( NonEmpty ls ) -> isUnique (headOrError ls :: Float) (removeDuplicates ls) == Just True
 
   it "removeDuplicates: elements should occur only once #2" $
     property $
     \ xs -> all ((==1) . length) . group $ removeDuplicates ( xs :: [Integer] )
+
+-- Need this to prevent warnings/errors in CI for later GHC version.
+{-# INLINE headOrError #-}
+headOrError :: [a] -> a
+headOrError xs =
+  case xs of
+    [] -> error "Unique.IsUnique.headOrError: Empty list"
+    (x:_) -> x

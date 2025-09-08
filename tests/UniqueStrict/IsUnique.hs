@@ -35,10 +35,11 @@ isUniqueTests =
       \ x xs
       -> isUnique (x :: Int) xs == fmap not (isRepeated x xs)
 
+
   it "isUnique: should return (Just ANY) when element is exist in the list" $
     property $
-    \ ( NonEmpty ls@(x:_) )
-    -> isJust (isUnique (x :: Char) ls)
+    \ ( NonEmpty ls )
+    -> isJust (isUnique (headOrError ls :: Char) ls)
 
   it "isUnique: should return Nothing when element is absent in the list" $
     property $
@@ -52,3 +53,11 @@ isUniqueTests =
     -> notElem x xs
        ==> isNothing (isUnique (x :: Char) xs)
        &&  isNothing (isRepeated x xs)
+
+-- Need this to prevent warnings/errors in CI for later GHC version.
+{-# INLINE headOrError #-}
+headOrError :: [a] -> a
+headOrError xs =
+  case xs of
+    [] -> error "Unique.IsUnique.headOrError: Empty list"
+    (x:_) -> x

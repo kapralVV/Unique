@@ -5,10 +5,23 @@ license:       BSD3
 license-file:  LICENSE
 maintainer:    ualinuxcn@gmail.com
 author:        Volodymyr Yashchenko
-tested-with:   ghc >=7.4 && <8.2.1 || >8.2.1 && <8.12
 synopsis:      It provides the functionality like unix "uniq" utility
 description:
     Library provides the functions to find unique and duplicate elements in the list
+
+tested-with:
+  GHC ==9.12.2
+   || ==9.10.2
+   || ==9.8.4
+   || ==9.6.7
+   || ==9.4.8
+   || ==9.2.8
+   || ==9.0.2
+   || ==8.10.7
+   || ==8.8.4
+   || ==8.6.5
+   || ==8.4.4
+   || ==8.2.2
 
 category:      Data
 build-type:    Simple
@@ -27,9 +40,9 @@ library
     ghc-options:      -Wall
     build-depends:
         base >=4.0 && < 5,
-        containers >=0.5.0.0 && <=0.7,
+        containers >=0.5.0.0 && <=0.9,
         extra >=1.6.2 && <=1.8,
-        hashable >= 1.2.6 && < 1.5,
+        hashable >= 1.2.6 && < 1.6,
         unordered-containers >= 0.2.8 && <=0.3
 
 test-suite HspecTest
@@ -57,8 +70,8 @@ test-suite HspecTest
         base >=4.0 && <5,
         Unique,
         hspec -any,
-        containers >=0.5.0.0 && <=0.7,
-        QuickCheck    >= 2.10 && <2.15
+        containers >=0.5.0.0 && <=0.9,
+        QuickCheck    >= 2.10 && <2.17
 
 benchmark Criterion
     type:             exitcode-stdio-1.0
@@ -70,7 +83,7 @@ benchmark Criterion
         base >=4.0 && <5,
         Unique,
         criterion -any,
-        QuickCheck    >= 2.10 && <2.15,
+        QuickCheck    >= 2.10 && <2.17,
         quickcheck-instances -any,
         bytestring -any,
         hashable -any

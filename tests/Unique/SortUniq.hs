@@ -28,7 +28,7 @@ sortUniqTests =
 
   it "sortUniq: elements should occur only once" $
     property $
-    \ ( NonEmpty ls@(x:_) ) -> isUnique (x :: Float) (sortUniq ls) == Just True
+    \ ( NonEmpty ls ) -> isUnique (headOrError ls :: Float) (sortUniq ls) == Just True
 
   it "sortUniq: elements should occur only once #2" $
     property $
@@ -36,9 +36,17 @@ sortUniqTests =
 
   it "sortUniq: check if it's correct by slow analog function" $
     property $
-    \ xs -> ( map head . group . sort $ (xs :: String) )
+    \ xs -> ( map headOrError . group . sort $ (xs :: String) )
             == sortUniq xs
 
   it "sortUniq: check if it's correct by the Faster analog function :)" $
     property $
     \ xs -> sortUniq ( xs :: String ) == toList (fromList xs)
+
+-- Need this to prevent warnings/errors in CI for later GHC version.
+{-# INLINE headOrError #-}
+headOrError :: [a] -> a
+headOrError xs =
+  case xs of
+    [] -> error "Unique.IsUniqueheadOrError: Empty list"
+    (x:_) -> x
